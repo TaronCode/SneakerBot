@@ -9,7 +9,7 @@ class ReebokParse:
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36"
         }
 
-    def get_data(self, url="https://www.reebok.com/api/plp/content-engine?sitePath=us&query=men-classics-shoes-sale"):
+    def get_data(self, url):
         s = requests.Session()
         res = s.get(url, headers=self.headers)
         self.data = res.json()
@@ -36,6 +36,7 @@ class ReebokParse:
 
         with open("reebok_results.json", "w", encoding="utf-8") as file:
             json.dump(self.prodList, file, indent=4, ensure_ascii=False)
+        self.prodList.clear()
 
     def get_prices(self):
         id = self.data["raw"]["itemList"]["items"][self.prod]["productId"]
@@ -49,3 +50,4 @@ class ReebokParse:
         return price, salePrice
 
 reebok_parser = ReebokParse()
+
